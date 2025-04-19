@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spanish Listening Test - Family Life (Beginner)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        .question {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .options {
+            margin: 15px 0;
+        }
+
+        .option {
+            display: block;
+            margin: 10px 0;
+            padding: 8px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .option:hover {
+            background-color: #e9e9e9;
+        }
+
+        #submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+        }
+
+        #submit-btn:hover {
+            background-color: #45a049;
+        }
+
+        #results {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .correct {
+            background-color: #d4edda !important;
+        }
+
+        .incorrect {
+            background-color: #f8d7da !important;
+        }
+
+        .play-audio-btn {
+            background-color: #008CBA;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+
+        .play-audio-btn:hover {
+            background-color: #005f7f;
+        }
+
+        .transcript {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            font-style: italic;
+            display: none;
+        }
+
+        .translation {
+            margin: 5px 0 10px 10px;
+            color: #666;
+            font-size: 0.9em;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Spanish Listening Comprehension Test - Family Life (Beginner)</h1>
+        <div id="quiz"></div>
+        <button id="submit-btn">Submit Answers</button>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                textToSpeak: "Vivo en una casa.",
+                textToSpeakEnglish: "I live in a house.",
+                question: "¿Dónde vive la persona?",
+                questionEnglish: "Where does the person live?",
+                options: ["A) En una casa", "B) En un coche", "C) En una escuela", "D) En un parque"],
+                optionsEnglish: ["A) In a house", "B) In a car", "C) In a school", "D) In a park"],
+                correctAnswer: 0,
+                audioFile: "audio/001.mp3"
+            },
+            {
+                textToSpeak: "Como pan en la cocina.",
+                textToSpeakEnglish: "I eat bread in the kitchen.",
+                question: "¿Qué come la persona?",
+                questionEnglish: "What does the person eat?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 0,
+                audioFile: "audio/002.mp3"
+            },
+            {
+                textToSpeak: "Mi madre limpia la mesa.",
+                textToSpeakEnglish: "My mother cleans the table.",
+                question: "¿Quién limpia la mesa?",
+                questionEnglish: "Who cleans the table?",
+                options: ["A) Mi padre", "B) Mi madre", "C) Mi hermano", "D) Mi hermana"],
+                optionsEnglish: ["A) My father", "B) My mother", "C) My brother", "D) My sister"],
+                correctAnswer: 1,
+                audioFile: "audio/003.mp3"
+            },
+            {
+                textToSpeak: "Duermo en mi cama.",
+                textToSpeakEnglish: "I sleep in my bed.",
+                question: "¿Dónde duerme la persona?",
+                questionEnglish: "Where does the person sleep?",
+                options: ["A) En la mesa", "B) En la silla", "C) En la cama", "D) En la cocina"],
+                optionsEnglish: ["A) On the table", "B) On the chair", "C) In the bed", "D) In the kitchen"],
+                correctAnswer: 2,
+                audioFile: "audio/004.mp3"
+            },
+            {
+                textToSpeak: "Mi padre cocina en la cocina.",
+                textToSpeakEnglish: "My father cooks in the kitchen.",
+                question: "¿Qué hace mi padre?",
+                questionEnglish: "What does my father do?",
+                options: ["A) Cocina", "B) Duerme", "C) Lee", "D) Corre"],
+                optionsEnglish: ["A) Cooks", "B) Sleeps", "C) Reads", "D) Runs"],
+                correctAnswer: 0,
+                audioFile: "audio/005.mp3"
+            },
+            {
+                textToSpeak: "Limpio el baño.",
+                textToSpeakEnglish: "I clean the bathroom.",
+                question: "¿Qué limpia la persona?",
+                questionEnglish: "What does the person clean?",
+                options: ["A) La cocina", "B) El baño", "C) La silla", "D) La ventana"],
+                optionsEnglish: ["A) The kitchen", "B) The bathroom", "C) The chair", "D) The window"],
+                correctAnswer: 1,
+                audioFile: "audio/006.mp3"
+            },
+            {
+                textToSpeak: "Mi hermano come fruta.",
+                textToSpeakEnglish: "My brother eats fruit.",
+                question: "¿Qué come mi hermano?",
+                questionEnglish: "What does my brother eat?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 2,
+                audioFile: "audio/007.mp3"
+            },
+            {
+                textToSpeak: "Leo un libro en la sala.",
+                textToSpeakEnglish: "I read a book in the living room.",
+                question: "¿Qué hace la persona en la sala?",
+                questionEnglish: "What does the person do in the living room?",
+                options: ["A) Come", "B) Duerme", "C) Lee", "D) Cocina"],
+                optionsEnglish: ["A) Eats", "B) Sleeps", "C) Reads", "D) Cooks"],
+                correctAnswer: 2,
+                audioFile: "audio/008.mp3"
+            },
+            {
+                textToSpeak: "Mi hermana bebe agua.",
+                textToSpeakEnglish: "My sister drinks water.",
+                question: "¿Qué bebe mi hermana?",
+                questionEnglish: "What does my sister drink?",
+                options: ["A) Leche", "B) Sopa", "C) Agua", "D) Fruta"],
+                optionsEnglish: ["A) Milk", "B) Soup", "C) Water", "D) Fruit"],
+                correctAnswer: 2,
+                audioFile: "audio/009.mp3"
+            },
+            {
+                textToSpeak: "Vemos televisión en la sala.",
+                textToSpeakEnglish: "We watch television in the living room.",
+                question: "¿Qué hacemos en la sala?",
+                questionEnglish: "What do we do in the living room?",
+                options: ["A) Dormimos", "B) Cocinamos", "C) Vemos televisión", "D) Limpiamos"],
+                optionsEnglish: ["A) Sleep", "B) Cook", "C) Watch television", "D) Clean"],
+                correctAnswer: 2,
+                audioFile: "audio/010.mp3"
+            },
+            {
+                textToSpeak: "Mi abuela come sopa.",
+                textToSpeakEnglish: "My grandmother eats soup.",
+                question: "¿Qué come mi abuela?",
+                questionEnglish: "What does my grandmother eat?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 1,
+                audioFile: "audio/011.mp3"
+            },
+            {
+                textToSpeak: "Limpio la ventana en la sala.",
+                textToSpeakEnglish: "I clean the window in the living room.",
+                question: "¿Qué limpia la persona?",
+                questionEnglish: "What does the person clean?",
+                options: ["A) La mesa", "B) La ventana", "C) La cama", "D) La cocina"],
+                optionsEnglish: ["A) The table", "B) The window", "C) The bed", "D) The kitchen"],
+                correctAnswer: 1,
+                audioFile: "audio/012.mp3"
+            },
+            {
+                textToSpeak: "Mi padre bebe leche.",
+                textToSpeakEnglish: "My father drinks milk.",
+                question: "¿Qué bebe mi padre?",
+                questionEnglish: "What does my father drink?",
+                options: ["A) Agua", "B) Sopa", "C) Leche", "D) Fruta"],
+                optionsEnglish: ["A) Water", "B) Soup", "C) Milk", "D) Fruit"],
+                correctAnswer: 2,
+                audioFile: "audio/013.mp3"
+            },
+            {
+                textToSpeak: "Duermo en mi habitación.",
+                textToSpeakEnglish: "I sleep in my room.",
+                question: "¿Dónde duerme la persona?",
+                questionEnglish: "Where does the person sleep?",
+                options: ["A) En la cocina", "B) En la sala", "C) En mi habitación", "D) En el baño"],
+                optionsEnglish: ["A) In the kitchen", "B) In the living room", "C) In my room", "D) In the bathroom"],
+                correctAnswer: 2,
+                audioFile: "audio/014.mp3"
+            },
+            {
+                textToSpeak: "Mi madre lee un libro.",
+                textToSpeakEnglish: "My mother reads a book.",
+                question: "¿Qué hace mi madre?",
+                questionEnglish: "What does my mother do?",
+                options: ["A) Cocina", "B) Lee", "C) Duerme", "D) Corre"],
+                optionsEnglish: ["A) Cooks", "B) Reads", "C) Sleeps", "D) Runs"],
+                correctAnswer: 1,
+                audioFile: "audio/015.mp3"
+            },
+            {
+                textToSpeak: "Como fruta en la mesa.",
+                textToSpeakEnglish: "I eat fruit at the table.",
+                question: "¿Qué come la persona?",
+                questionEnglish: "What does the person eat?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 2,
+                audioFile: "audio/016.mp3"
+            },
+            {
+                textToSpeak: "Mi hermano limpia la cocina.",
+                textToSpeakEnglish: "My brother cleans the kitchen.",
+                question: "¿Quién limpia la cocina?",
+                questionEnglish: "Who cleans the kitchen?",
+                options: ["A) Mi madre", "B) Mi padre", "C) Mi hermano", "D) Mi hermana"],
+                optionsEnglish: ["A) My mother", "B) My father", "C) My brother", "D) My sister"],
+                correctAnswer: 2,
+                audioFile: "audio/017.mp3"
+            },
+            {
+                textToSpeak: "Vemos una película en la sala.",
+                textToSpeakEnglish: "We watch a movie in the living room.",
+                question: "¿Qué hacemos en la sala?",
+                questionEnglish: "What do we do in the living room?",
+                options: ["A) Cocinamos", "B) Dormimos", "C) Vemos una película", "D) Limpiamos"],
+                optionsEnglish: ["A) Cook", "B) Sleep", "C) Watch a movie", "D) Clean"],
+                correctAnswer: 2,
+                audioFile: "audio/018.mp3"
+            },
+            {
+                textToSpeak: "Mi hermana come pan.",
+                textToSpeakEnglish: "My sister eats bread.",
+                question: "¿Qué come mi hermana?",
+                questionEnglish: "What does my sister eat?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 0,
+                audioFile: "audio/019.mp3"
+            },
+            {
+                textToSpeak: "Limpio la mesa en el comedor.",
+                textToSpeakEnglish: "I clean the table in the dining room.",
+                question: "¿Dónde limpia la persona la mesa?",
+                questionEnglish: "Where does the person clean the table?",
+                options: ["A) En la cocina", "B) En la sala", "C) En el comedor", "D) En el baño"],
+                optionsEnglish: ["A) In the kitchen", "B) In the living room", "C) In the dining room", "D) In the bathroom"],
+                correctAnswer: 2,
+                audioFile: "audio/020.mp3"
+            },
+            {
+                textToSpeak: "Mi abuelo bebe agua.",
+                textToSpeakEnglish: "My grandfather drinks water.",
+                question: "¿Qué bebe mi abuelo?",
+                questionEnglish: "What does my grandfather drink?",
+                options: ["A) Leche", "B) Sopa", "C) Agua", "D) Fruta"],
+                optionsEnglish: ["A) Milk", "B) Soup", "C) Water", "D) Fruit"],
+                correctAnswer: 2,
+                audioFile: "audio/021.mp3"
+            },
+            {
+                textToSpeak: "Cocino sopa en la cocina.",
+                textToSpeakEnglish: "I cook soup in the kitchen.",
+                question: "¿Qué cocina la persona?",
+                questionEnglish: "What does the person cook?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 1,
+                audioFile: "audio/022.mp3"
+            },
+            {
+                textToSpeak: "Mi madre duerme en la cama.",
+                textToSpeakEnglish: "My mother sleeps in the bed.",
+                question: "¿Dónde duerme mi madre?",
+                questionEnglish: "Where does my mother sleep?",
+                options: ["A) En la mesa", "B) En la silla", "C) En la cama", "D) En la cocina"],
+                optionsEnglish: ["A) On the table", "B) On the chair", "C) In the bed", "D) In the kitchen"],
+                correctAnswer: 2,
+                audioFile: "audio/023.mp3"
+            },
+            {
+                textToSpeak: "Leo en mi habitación.",
+                textToSpeakEnglish: "I read in my room.",
+                question: "¿Dónde lee la persona?",
+                questionEnglish: "Where does the person read?",
+                options: ["A) En la cocina", "B) En el baño", "C) En mi habitación", "D) En el comedor"],
+                optionsEnglish: ["A) In the kitchen", "B) In the bathroom", "C) In my room", "D) In the dining room"],
+                correctAnswer: 2,
+                audioFile: "audio/024.mp3"
+            },
+            {
+                textToSpeak: "Mi hermano ve televisión.",
+                textToSpeakEnglish: "My brother watches television.",
+                question: "¿Qué hace mi hermano?",
+                questionEnglish: "What does my brother do?",
+                options: ["A) Cocina", "B) Duerme", "C) Ve televisión", "D) Corre"],
+                optionsEnglish: ["A) Cooks", "B) Sleeps", "C) Watches television", "D) Runs"],
+                correctAnswer: 2,
+                audioFile: "audio/025.mp3"
+            },
+            {
+                textToSpeak: "Mi padre limpia el baño.",
+                textToSpeakEnglish: "My father cleans the bathroom.",
+                question: "¿Qué limpia mi padre?",
+                questionEnglish: "What does my father clean?",
+                options: ["A) La cocina", "B) El baño", "C) La silla", "D) La ventana"],
+                optionsEnglish: ["A) The kitchen", "B) The bathroom", "C) The chair", "D) The window"],
+                correctAnswer: 1,
+                audioFile: "audio/026.mp3"
+            },
+            {
+                textToSpeak: "Como leche en la cocina.",
+                textToSpeakEnglish: "I eat milk in the kitchen.",
+                question: "¿Qué come la persona?",
+                questionEnglish: "What does the person eat?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 3,
+                audioFile: "audio/027.mp3"
+            },
+            {
+                textToSpeak: "Mi hermana duerme en la cama.",
+                textToSpeakEnglish: "My sister sleeps in the bed.",
+                question: "¿Dónde duerme mi hermana?",
+                questionEnglish: "Where does my sister sleep?",
+                options: ["A) En la mesa", "B) En la silla", "C) En la cama", "D) En la cocina"],
+                optionsEnglish: ["A) On the table", "B) On the chair", "C) In the bed", "D) In the kitchen"],
+                correctAnswer: 2,
+                audioFile: "audio/028.mp3"
+            },
+            {
+                textToSpeak: "Mi abuela lee un libro.",
+                textToSpeakEnglish: "My grandmother reads a book.",
+                question: "¿Qué hace mi abuela?",
+                questionEnglish: "What does my grandmother do?",
+                options: ["A) Cocina", "B) Lee", "C) Duerme", "D) Corre"],
+                optionsEnglish: ["A) Cooks", "B) Reads", "C) Sleeps", "D) Runs"],
+                correctAnswer: 1,
+                audioFile: "audio/029.mp3"
+            },
+            {
+                textToSpeak: "Limpio la silla en la sala.",
+                textToSpeakEnglish: "I clean the chair in the living room.",
+                question: "¿Qué limpia la persona?",
+                questionEnglish: "What does the person clean?",
+                options: ["A) La mesa", "B) La ventana", "C) La silla", "D) La cocina"],
+                optionsEnglish: ["A) The table", "B) The window", "C) The chair", "D) The kitchen"],
+                correctAnswer: 2,
+                audioFile: "audio/030.mp3"
+            },
+            {
+                textToSpeak: "Mi hermano bebe leche.",
+                textToSpeakEnglish: "My brother drinks milk.",
+                question: "¿Qué bebe mi hermano?",
+                questionEnglish: "What does my brother drink?",
+                options: ["A) Agua", "B) Sopa", "C) Leche", "D) Fruta"],
+                optionsEnglish: ["A) Water", "B) Soup", "C) Milk", "D) Fruit"],
+                correctAnswer: 2,
+                audioFile: "audio/031.mp3"
+            },
+            {
+                textToSpeak: "Cocino pan en la cocina.",
+                textToSpeakEnglish: "I cook bread in the kitchen.",
+                question: "¿Qué cocina la persona?",
+                questionEnglish: "What does the person cook?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 0,
+                audioFile: "audio/032.mp3"
+            },
+            {
+                textToSpeak: "Mi madre come fruta.",
+                textToSpeakEnglish: "My mother eats fruit.",
+                question: "¿Qué come mi madre?",
+                questionEnglish: "What does my mother eat?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 2,
+                audioFile: "audio/033.mp3"
+            },
+            {
+                textToSpeak: "Duermo en la sala.",
+                textToSpeakEnglish: "I sleep in the living room.",
+                question: "¿Dónde duerme la persona?",
+                questionEnglish: "Where does the person sleep?",
+                options: ["A) En la cocina", "B) En la sala", "C) En el baño", "D) En el comedor"],
+                optionsEnglish: ["A) In the kitchen", "B) In the living room", "C) In the bathroom", "D) In the dining room"],
+                correctAnswer: 1,
+                audioFile: "audio/034.mp3"
+            },
+            {
+                textToSpeak: "Mi padre ve televisión.",
+                textToSpeakEnglish: "My father watches television.",
+                question: "¿Qué hace mi padre?",
+                questionEnglish: "What does my father do?",
+                options: ["A) Cocina", "B) Duerme", "C) Ve televisión", "D) Corre"],
+                optionsEnglish: ["A) Cooks", "B) Sleeps", "C) Watches television", "D) Runs"],
+                correctAnswer: 2,
+                audioFile: "audio/035.mp3"
+            },
+            {
+                textToSpeak: "Mi hermana limpia la mesa.",
+                textToSpeakEnglish: "My sister cleans the table.",
+                question: "¿Quién limpia la mesa?",
+                questionEnglish: "Who cleans the table?",
+                options: ["A) Mi madre", "B) Mi padre", "C) Mi hermano", "D) Mi hermana"],
+                optionsEnglish: ["A) My mother", "B) My father", "C) My brother", "D) My sister"],
+                correctAnswer: 3,
+                audioFile: "audio/036.mp3"
+            },
+            {
+                textToSpeak: "Como sopa en el comedor.",
+                textToSpeakEnglish: "I eat soup in the dining room.",
+                question: "¿Qué come la persona?",
+                questionEnglish: "What does the person eat?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 1,
+                audioFile: "audio/037.mp3"
+            },
+            {
+                textToSpeak: "Mi abuelo limpia la ventana.",
+                textToSpeakEnglish: "My grandfather cleans the window.",
+                question: "¿Qué limpia mi abuelo?",
+                questionEnglish: "What does my grandfather clean?",
+                options: ["A) La mesa", "B) La ventana", "C) La cama", "D) La cocina"],
+                optionsEnglish: ["A) The table", "B) The window", "C) The bed", "D) The kitchen"],
+                correctAnswer: 1,
+                audioFile: "audio/038.mp3"
+            },
+            {
+                textToSpeak: "Leo un libro en la cama.",
+                textToSpeakEnglish: "I read a book in bed.",
+                question: "¿Dónde lee la persona?",
+                questionEnglish: "Where does the person read?",
+                options: ["A) En la cocina", "B) En el baño", "C) En la cama", "D) En el comedor"],
+                optionsEnglish: ["A) In the kitchen", "B) In the bathroom", "C) In bed", "D) In the dining room"],
+                correctAnswer: 2,
+                audioFile: "audio/039.mp3"
+            },
+            {
+                textToSpeak: "Mi madre bebe agua.",
+                textToSpeakEnglish: "My mother drinks water.",
+                question: "¿Qué bebe mi madre?",
+                questionEnglish: "What does my mother drink?",
+                options: ["A) Leche", "B) Sopa", "C) Agua", "D) Fruta"],
+                optionsEnglish: ["A) Milk", "B) Soup", "C) Water", "D) Fruit"],
+                correctAnswer: 2,
+                audioFile: "audio/040.mp3"
+            },
+            {
+                textToSpeak: "Mi hermano cocina en la cocina.",
+                textToSpeakEnglish: "My brother cooks in the kitchen.",
+                question: "¿Qué hace mi hermano?",
+                questionEnglish: "What does my brother do?",
+                options: ["A) Cocina", "B) Duerme", "C) Lee", "D) Corre"],
+                optionsEnglish: ["A) Cooks", "B) Sleeps", "C) Reads", "D) Runs"],
+                correctAnswer: 0,
+                audioFile: "audio/041.mp3"
+            },
+            {
+                textToSpeak: "Limpio la cama en mi habitación.",
+                textToSpeakEnglish: "I clean the bed in my room.",
+                question: "¿Qué limpia la persona?",
+                questionEnglish: "What does the person clean?",
+                options: ["A) La mesa", "B) La ventana", "C) La cama", "D) La cocina"],
+                optionsEnglish: ["A) The table", "B) The window", "C) The bed", "D) The kitchen"],
+                correctAnswer: 2,
+                audioFile: "audio/042.mp3"
+            },
+            {
+                textToSpeak: "Mi hermana ve televisión.",
+                textToSpeakEnglish: "My sister watches television.",
+                question: "¿Qué hace mi hermana?",
+                questionEnglish: "What does my sister do?",
+                options: ["A) Cocina", "B) Duerme", "C) Ve televisión", "D) Corre"],
+                optionsEnglish: ["A) Cooks", "B) Sleeps", "C) Watches television", "D) Runs"],
+                correctAnswer: 2,
+                audioFile: "audio/043.mp3"
+            },
+            {
+                textToSpeak: "Como pan en el comedor.",
+                textToSpeakEnglish: "I eat bread in the dining room.",
+                question: "¿Dónde come la persona?",
+                questionEnglish: "Where does the person eat?",
+                options: ["A) En la cocina", "B) En la sala", "C) En el comedor", "D) En el baño"],
+                optionsEnglish: ["A) In the kitchen", "B) In the living room", "C) In the dining room", "D) In the bathroom"],
+                correctAnswer: 2,
+                audioFile: "audio/044.mp3"
+            },
+            {
+                textToSpeak: "Mi padre lee en la sala.",
+                textToSpeakEnglish: "My father reads in the living room.",
+                question: "¿Dónde lee mi padre?",
+                questionEnglish: "Where does my father read?",
+                options: ["A) En la cocina", "B) En el baño", "C) En la sala", "D) En el comedor"],
+                optionsEnglish: ["A) In the kitchen", "B) In the bathroom", "C) In the living room", "D) In the dining room"],
+                correctAnswer: 2,
+                audioFile: "audio/045.mp3"
+            },
+            {
+                textToSpeak: "Mi abuela come pan.",
+                textToSpeakEnglish: "My grandmother eats bread.",
+                question: "¿Qué come mi abuela?",
+                questionEnglish: "What does my grandmother eat?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 0,
+                audioFile: "audio/046.mp3"
+            },
+            {
+                textToSpeak: "Limpio el comedor.",
+                textToSpeakEnglish: "I clean the dining room.",
+                question: "¿Qué limpia la persona?",
+                questionEnglish: "What does the person clean?",
+                options: ["A) La cocina", "B) El baño", "C) El comedor", "D) La ventana"],
+                optionsEnglish: ["A) The kitchen", "B) The bathroom", "C) The dining room", "D) The window"],
+                correctAnswer: 2,
+                audioFile: "audio/047.mp3"
+            },
+            {
+                textToSpeak: "Mi hermano duerme en la cama.",
+                textToSpeakEnglish: "My brother sleeps in the bed.",
+                question: "¿Dónde duerme mi hermano?",
+                questionEnglish: "Where does my brother sleep?",
+                options: ["A) En la mesa", "B) En la silla", "C) En la cama", "D) En la cocina"],
+                optionsEnglish: ["A) On the table", "B) On the chair", "C) In the bed", "D) In the kitchen"],
+                correctAnswer: 2,
+                audioFile: "audio/048.mp3"
+            },
+            {
+                textToSpeak: "Mi madre cocina sopa.",
+                textToSpeakEnglish: "My mother cooks soup.",
+                question: "¿Qué cocina mi madre?",
+                questionEnglish: "What does my mother cook?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 1,
+                audioFile: "audio/049.mp3"
+            },
+            {
+                textToSpeak: "Vemos televisión en la cama.",
+                textToSpeakEnglish: "We watch television in bed.",
+                question: "¿Dónde vemos televisión?",
+                questionEnglish: "Where do we watch television?",
+                options: ["A) En la cocina", "B) En el baño", "C) En la cama", "D) En el comedor"],
+                optionsEnglish: ["A) In the kitchen", "B) In the bathroom", "C) In bed", "D) In the dining room"],
+                correctAnswer: 2,
+                audioFile: "audio/050.mp3"
+            },
+            {
+                textToSpeak: "Mi hermana come sopa.",
+                textToSpeakEnglish: "My sister eats soup.",
+                question: "¿Qué come mi hermana?",
+                questionEnglish: "What does my sister eat?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 1,
+                audioFile: "audio/051.mp3"
+            },
+            {
+                textToSpeak: "Limpio la cocina.",
+                textToSpeakEnglish: "I clean the kitchen.",
+                question: "¿Qué limpia la persona?",
+                questionEnglish: "What does the person clean?",
+                options: ["A) La cocina", "B) El baño", "C) La silla", "D) La ventana"],
+                optionsEnglish: ["A) The kitchen", "B) The bathroom", "C) The chair", "D) The window"],
+                correctAnswer: 0,
+                audioFile: "audio/052.mp3"
+            },
+            {
+                textToSpeak: "Mi padre duerme en la sala.",
+                textToSpeakEnglish: "My father sleeps in the living room.",
+                question: "¿Dónde duerme mi padre?",
+                questionEnglish: "Where does my father sleep?",
+                options: ["A) En la cocina", "B) En la sala", "C) En el baño", "D) En el comedor"],
+                optionsEnglish: ["A) In the kitchen", "B) In the living room", "C) In the bathroom", "D) In the dining room"],
+                correctAnswer: 1,
+                audioFile: "audio/053.mp3"
+            },
+            {
+                textToSpeak: "Mi hermano lee un libro.",
+                textToSpeakEnglish: "My brother reads a book.",
+                question: "¿Qué hace mi hermano?",
+                questionEnglish: "What does my brother do?",
+                options: ["A) Cocina", "B) Lee", "C) Duerme", "D) Corre"],
+                optionsEnglish: ["A) Cooks", "B) Reads", "C) Sleeps", "D) Runs"],
+                correctAnswer: 1,
+                audioFile: "audio/054.mp3"
+            },
+            {
+                textToSpeak: "Como fruta en la sala.",
+                textToSpeakEnglish: "I eat fruit in the living room.",
+                question: "¿Dónde come la persona?",
+                questionEnglish: "Where does the person eat?",
+                options: ["A) En la cocina", "B) En la sala", "C) En el comedor", "D) En el baño"],
+                optionsEnglish: ["A) In the kitchen", "B) In the living room", "C) In the dining room", "D) In the bathroom"],
+                correctAnswer: 1,
+                audioFile: "audio/055.mp3"
+            },
+            {
+                textToSpeak: "Mi madre limpia la ventana.",
+                textToSpeakEnglish: "My mother cleans the window.",
+                question: "¿Qué limpia mi madre?",
+                questionEnglish: "What does my mother clean?",
+                options: ["A) La mesa", "B) La ventana", "C) La cama", "D) La cocina"],
+                optionsEnglish: ["A) The table", "B) The window", "C) The bed", "D) The kitchen"],
+                correctAnswer: 1,
+                audioFile: "audio/056.mp3"
+            },
+            {
+                textToSpeak: "Mi hermana cocina en la cocina.",
+                textToSpeakEnglish: "My sister cooks in the kitchen.",
+                question: "¿Qué hace mi hermana?",
+                questionEnglish: "What does my sister do?",
+                options: ["A) Cocina", "B) Duerme", "C) Lee", "D) Corre"],
+                optionsEnglish: ["A) Cooks", "B) Sleeps", "C) Reads", "D) Runs"],
+                correctAnswer: 0,
+                audioFile: "audio/057.mp3"
+            },
+            {
+                textToSpeak: "Mi abuelo ve televisión.",
+                textToSpeakEnglish: "My grandfather watches television.",
+                question: "¿Qué hace mi abuelo?",
+                questionEnglish: "What does my grandfather do?",
+                options: ["A) Cocina", "B) Duerme", "C) Ve televisión", "D) Corre"],
+                optionsEnglish: ["A) Cooks", "B) Sleeps", "C) Watches television", "D) Runs"],
+                correctAnswer: 2,
+                audioFile: "audio/058.mp3"
+            },
+            {
+                textToSpeak: "Limpio la sala.",
+                textToSpeakEnglish: "I clean the living room.",
+                question: "¿Qué limpia la persona?",
+                questionEnglish: "What does the person clean?",
+                options: ["A) La cocina", "B) El baño", "C) La sala", "D) La ventana"],
+                optionsEnglish: ["A) The kitchen", "B) The bathroom", "C) The living room", "D) The window"],
+                correctAnswer: 2,
+                audioFile: "audio/059.mp3"
+            },
+            {
+                textToSpeak: "Mi padre come sopa.",
+                textToSpeakEnglish: "My father eats soup.",
+                question: "¿Qué come mi padre?",
+                questionEnglish: "What does my father eat?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 1,
+                audioFile: "audio/060.mp3"
+            },
+            {
+                textToSpeak: "Mi hermana lee en la cama.",
+                textToSpeakEnglish: "My sister reads in bed.",
+                question: "¿Dónde lee mi hermana?",
+                questionEnglish: "Where does my sister read?",
+                options: ["A) En la cocina", "B) En el baño", "C) En la cama", "D) En el comedor"],
+                optionsEnglish: ["A) In the kitchen", "B) In the bathroom", "C) In bed", "D) In the dining room"],
+                correctAnswer: 2,
+                audioFile: "audio/061.mp3"
+            },
+            {
+                textToSpeak: "Como leche en el comedor.",
+                textToSpeakEnglish: "I eat milk in the dining room.",
+                question: "¿Dónde come la persona?",
+                questionEnglish: "Where does the person eat?",
+                options: ["A) En la cocina", "B) En la sala", "C) En el comedor", "D) En el baño"],
+                optionsEnglish: ["A) In the kitchen", "B) In the living room", "C) In the dining room", "D) In the bathroom"],
+                correctAnswer: 2,
+                audioFile: "audio/062.mp3"
+            },
+            {
+                textToSpeak: "Mi madre ve televisión.",
+                textToSpeakEnglish: "My mother watches television.",
+                question: "¿Qué hace mi madre?",
+                questionEnglish: "What does my mother do?",
+                options: ["A) Cocina", "B) Duerme", "C) Ve televisión", "D) Corre"],
+                optionsEnglish: ["A) Cooks", "B) Sleeps", "C) Watches television", "D) Runs"],
+                correctAnswer: 2,
+                audioFile: "audio/063.mp3"
+            },
+            {
+                textToSpeak: "Mi hermano limpia la silla.",
+                textToSpeakEnglish: "My brother cleans the chair.",
+                question: "¿Qué limpia mi hermano?",
+                questionEnglish: "What does my brother clean?",
+                options: ["A) La mesa", "B) La ventana", "C) La silla", "D) La cocina"],
+                optionsEnglish: ["A) The table", "B) The window", "C) The chair", "D) The kitchen"],
+                correctAnswer: 2,
+                audioFile: "audio/064.mp3"
+            },
+            {
+                textToSpeak: "Mi abuela duerme en la cama.",
+                textToSpeakEnglish: "My grandmother sleeps in the bed.",
+                question: "¿Dónde duerme mi abuela?",
+                questionEnglish: "Where does my grandmother sleep?",
+                options: ["A) En la mesa", "B) En la silla", "C) En la cama", "D) En la cocina"],
+                optionsEnglish: ["A) On the table", "B) On the chair", "C) In the bed", "D) In the kitchen"],
+                correctAnswer: 2,
+                audioFile: "audio/065.mp3"
+            },
+            {
+                textToSpeak: "Cocino fruta en la cocina.",
+                textToSpeakEnglish: "I cook fruit in the kitchen.",
+                question: "¿Qué cocina la persona?",
+                questionEnglish: "What does the person cook?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 2,
+                audioFile: "audio/066.mp3"
+            },
+            {
+                textToSpeak: "Mi padre limpia la cama.",
+                textToSpeakEnglish: "My father cleans the bed.",
+                question: "¿Qué limpia mi padre?",
+                questionEnglish: "What does my father clean?",
+                options: ["A) La mesa", "B) La ventana", "C) La cama", "D) La cocina"],
+                optionsEnglish: ["A) The table", "B) The window", "C) The bed", "D) The kitchen"],
+                correctAnswer: 2,
+                audioFile: "audio/067.mp3"
+            },
+            {
+                textToSpeak: "Mi hermana bebe leche.",
+                textToSpeakEnglish: "My sister drinks milk.",
+                question: "¿Qué bebe mi hermana?",
+                questionEnglish: "What does my sister drink?",
+                options: ["A) Agua", "B) Sopa", "C) Leche", "D) Fruta"],
+                optionsEnglish: ["A) Water", "B) Soup", "C) Milk", "D) Fruit"],
+                correctAnswer: 2,
+                audioFile: "audio/068.mp3"
+            },
+            {
+                textToSpeak: "Leo en el comedor.",
+                textToSpeakEnglish: "I read in the dining room.",
+                question: "¿Dónde lee la persona?",
+                questionEnglish: "Where does the person read?",
+                options: ["A) En la cocina", "B) En el baño", "C) En el comedor", "D) En la cama"],
+                optionsEnglish: ["A) In the kitchen", "B) In the bathroom", "C) In the dining room", "D) In bed"],
+                correctAnswer: 2,
+                audioFile: "audio/069.mp3"
+            },
+            {
+                textToSpeak: "Mi madre come pan.",
+                textToSpeakEnglish: "My mother eats bread.",
+                question: "¿Qué come mi madre?",
+                questionEnglish: "What does my mother eat?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 0,
+                audioFile: "audio/070.mp3"
+            },
+            {
+                textToSpeak: "Mi hermano ve televisión en la sala.",
+                textToSpeakEnglish: "My brother watches television in the living room.",
+                question: "¿Dónde ve televisión mi hermano?",
+                questionEnglish: "Where does my brother watch television?",
+                options: ["A) En la cocina", "B) En el baño", "C) En la sala", "D) En el comedor"],
+                optionsEnglish: ["A) In the kitchen", "B) In the bathroom", "C) In the living room", "D) In the dining room"],
+                correctAnswer: 2,
+                audioFile: "audio/071.mp3"
+            },
+            {
+                textToSpeak: "Limpio la ventana en el comedor.",
+                textToSpeakEnglish: "I clean the window in the dining room.",
+                question: "¿Dónde limpia la persona la ventana?",
+                questionEnglish: "Where does the person clean the window?",
+                options: ["A) En la cocina", "B) En la sala", "C) En el comedor", "D) En el baño"],
+                optionsEnglish: ["A) In the kitchen", "B) In the living room", "C) In the dining room", "D) In the bathroom"],
+                correctAnswer: 2,
+                audioFile: "audio/072.mp3"
+            },
+            {
+                textToSpeak: "Mi padre bebe agua.",
+                textToSpeakEnglish: "My father drinks water.",
+                question: "¿Qué bebe mi padre?",
+                questionEnglish: "What does my father drink?",
+                options: ["A) Leche", "B) Sopa", "C) Agua", "D) Fruta"],
+                optionsEnglish: ["A) Milk", "B) Soup", "C) Water", "D) Fruit"],
+                correctAnswer: 2,
+                audioFile: "audio/073.mp3"
+            },
+            {
+                textToSpeak: "Mi hermana duerme en mi habitación.",
+                textToSpeakEnglish: "My sister sleeps in my room.",
+                question: "¿Dónde duerme mi hermana?",
+                questionEnglish: "Where does my sister sleep?",
+                options: ["A) En la cocina", "B) En la sala", "C) En mi habitación", "D) En el baño"],
+                optionsEnglish: ["A) In the kitchen", "B) In the living room", "C) In my room", "D) In the bathroom"],
+                correctAnswer: 2,
+                audioFile: "audio/074.mp3"
+            },
+            {
+                textToSpeak: "Cocino leche en la cocina.",
+                textToSpeakEnglish: "I cook milk in the kitchen.",
+                question: "¿Qué cocina la persona?",
+                questionEnglish: "What does the person cook?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 3,
+                audioFile: "audio/075.mp3"
+            },
+            {
+                textToSpeak: "Mi madre limpia la cama.",
+                textToSpeakEnglish: "My mother cleans the bed.",
+                question: "¿Qué limpia mi madre?",
+                questionEnglish: "What does my mother clean?",
+                options: ["A) La mesa", "B) La ventana", "C) La cama", "D) La cocina"],
+                optionsEnglish: ["A) The table", "B) The window", "C) The bed", "D) The kitchen"],
+                correctAnswer: 2,
+                audioFile: "audio/076.mp3"
+            },
+            {
+                textToSpeak: "Mi hermano come leche.",
+                textToSpeakEnglish: "My brother eats milk.",
+                question: "¿Qué come mi hermano?",
+                questionEnglish: "What does my brother eat?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 3,
+                audioFile: "audio/077.mp3"
+            },
+            {
+                textToSpeak: "Mi abuela ve televisión.",
+                textToSpeakEnglish: "My grandmother watches television.",
+                question: "¿Qué hace mi abuela?",
+                questionEnglish: "What does my grandmother do?",
+                options: ["A) Cocina", "B) Duerme", "C) Ve televisión", "D) Corre"],
+                optionsEnglish: ["A) Cooks", "B) Sleeps", "C) Watches television", "D) Runs"],
+                correctAnswer: 2,
+                audioFile: "audio/078.mp3"
+            },
+            {
+                textToSpeak: "Limpio el baño en la casa.",
+                textToSpeakEnglish: "I clean the bathroom in the house.",
+                question: "¿Dónde limpia la persona el baño?",
+                questionEnglish: "Where does the person clean the bathroom?",
+                options: ["A) En la cocina", "B) En la sala", "C) En la casa", "D) En el comedor"],
+                optionsEnglish: ["A) In the kitchen", "B) In the living room", "C) In the house", "D) In the dining room"],
+                correctAnswer: 2,
+                audioFile: "audio/079.mp3"
+            },
+            {
+                textToSpeak: "Mi padre cocina fruta.",
+                textToSpeakEnglish: "My father cooks fruit.",
+                question: "¿Qué cocina mi padre?",
+                questionEnglish: "What does my father cook?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 2,
+                audioFile: "audio/080.mp3"
+            },
+            {
+                textToSpeak: "Mi hermana limpia el comedor.",
+                textToSpeakEnglish: "My sister cleans the dining room.",
+                question: "¿Qué limpia mi hermana?",
+                questionEnglish: "What does my sister clean?",
+                options: ["A) La cocina", "B) El baño", "C) El comedor", "D) La ventana"],
+                optionsEnglish: ["A) The kitchen", "B) The bathroom", "C) The dining room", "D) The window"],
+                correctAnswer: 2,
+                audioFile: "audio/081.mp3"
+            },
+            {
+                textToSpeak: "Como sopa en la sala.",
+                textToSpeakEnglish: "I eat soup in the living room.",
+                question: "¿Dónde come la persona?",
+                questionEnglish: "Where does the person eat?",
+                options: ["A) En la cocina", "B) En la sala", "C) En el comedor", "D) En el baño"],
+                optionsEnglish: ["A) In the kitchen", "B) In the living room", "C) In the dining room", "D) In the bathroom"],
+                correctAnswer: 1,
+                audioFile: "audio/082.mp3"
+            },
+            {
+                textToSpeak: "Mi madre lee en el comedor.",
+                textToSpeakEnglish: "My mother reads in the dining room.",
+                question: "¿Dónde lee mi madre?",
+                questionEnglish: "Where does my mother read?",
+                options: ["A) En la cocina", "B) En el baño", "C) En el comedor", "D) En la cama"],
+                optionsEnglish: ["A) In the kitchen", "B) In the bathroom", "C) In the dining room", "D) In bed"],
+                optionsEnglish: ["A) In the kitchen", "B) In the bathroom", "C) In the dining room", "D) In bed"],
+                correctAnswer: 2,
+                audioFile: "audio/083.mp3"
+            },
+            {
+                textToSpeak: "Mi hermano duerme en la sala.",
+                textToSpeakEnglish: "My brother sleeps in the living room.",
+                question: "¿Dónde duerme mi hermano?",
+                questionEnglish: "Where does my brother sleep?",
+                options: ["A) En la cocina", "B) En la sala", "C) En el baño", "D) En el comedor"],
+                optionsEnglish: ["A) In the kitchen", "B) In the living room", "C) In the bathroom", "D) In the dining room"],
+                correctAnswer: 1,
+                audioFile: "audio/084.mp3"
+            },
+            {
+                textToSpeak: "Mi abuela cocina en la cocina.",
+                textToSpeakEnglish: "My grandmother cooks in the kitchen.",
+                question: "¿Qué hace mi abuela?",
+                questionEnglish: "What does my grandmother do?",
+                options: ["A) Cocina", "B) Duerme", "C) Lee", "D) Corre"],
+                optionsEnglish: ["A) Cooks", "B) Sleeps", "C) Reads", "D) Runs"],
+                correctAnswer: 0,
+                audioFile: "audio/085.mp3"
+            },
+            {
+                textToSpeak: "Limpio la mesa en la cocina.",
+                textToSpeakEnglish: "I clean the table in the kitchen.",
+                question: "¿Dónde limpia la persona la mesa?",
+                questionEnglish: "Where does the person clean the table?",
+                options: ["A) En la cocina", "B) En la sala", "C) En el comedor", "D) En el baño"],
+                optionsEnglish: ["A) In the kitchen", "B) In the living room", "C) In the dining room", "D) In the bathroom"],
+                correctAnswer: 0,
+                audioFile: "audio/086.mp3"
+            },
+            {
+                textToSpeak: "Mi padre ve televisión en la cama.",
+                textToSpeakEnglish: "My father watches television in bed.",
+                question: "¿Dónde ve televisión mi padre?",
+                questionEnglish: "Where does my father watch television?",
+                options: ["A) En la cocina", "B) En el baño", "C) En la cama", "D) En el comedor"],
+                optionsEnglish: ["A) In the kitchen", "B) In the bathroom", "C) In bed", "D) In the dining room"],
+                correctAnswer: 2,
+                audioFile: "audio/087.mp3"
+            },
+            {
+                textToSpeak: "Mi hermana come fruta en la cocina.",
+                textToSpeakEnglish: "My sister eats fruit in the kitchen.",
+                question: "¿Qué come mi hermana?",
+                questionEnglish: "What does my sister eat?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 2,
+                audioFile: "audio/088.mp3"
+            },
+            {
+                textToSpeak: "Mi hermano limpia la ventana en la sala.",
+                textToSpeakEnglish: "My brother cleans the window in the living room.",
+                question: "¿Qué limpia mi hermano?",
+                questionEnglish: "What does my brother clean?",
+                options: ["A) La mesa", "B) La ventana", "C) La cama", "D) La cocina"],
+                optionsEnglish: ["A) The table", "B) The window", "C) The bed", "D) The kitchen"],
+                correctAnswer: 1,
+                audioFile: "audio/089.mp3"
+            },
+            {
+                textToSpeak: "Como pan en mi habitación.",
+                textToSpeakEnglish: "I eat bread in my room.",
+                question: "¿Dónde come la persona?",
+                questionEnglish: "Where does the person eat?",
+                options: ["A) En la cocina", "B) En la sala", "C) En mi habitación", "D) En el baño"],
+                optionsEnglish: ["A) In the kitchen", "B) In the living room", "C) In my room", "D) In the bathroom"],
+                correctAnswer: 2,
+                audioFile: "audio/090.mp3"
+            },
+            {
+                textToSpeak: "Mi madre duerme en mi habitación.",
+                textToSpeakEnglish: "My mother sleeps in my room.",
+                question: "¿Dónde duerme mi madre?",
+                questionEnglish: "Where does my mother sleep?",
+                options: ["A) En la cocina", "B) En la sala", "C) En mi habitación", "D) En el baño"],
+                optionsEnglish: ["A) In the kitchen", "B) In the living room", "C) In my room", "D) In the bathroom"],
+                correctAnswer: 2,
+                audioFile: "audio/091.mp3"
+            },
+            {
+                textToSpeak: "Mi hermana lee un libro en la sala.",
+                textToSpeakEnglish: "My sister reads a book in the living room.",
+                question: "¿Qué hace mi hermana?",
+                questionEnglish: "What does my sister do?",
+                options: ["A) Cocina", "B) Lee", "C) Duerme", "D) Corre"],
+                optionsEnglish: ["A) Cooks", "B) Reads", "C) Sleeps", "D) Runs"],
+                correctAnswer: 1,
+                audioFile: "audio/092.mp3"
+            },
+            {
+                textToSpeak: "Mi abuelo come sopa en el comedor.",
+                textToSpeakEnglish: "My grandfather eats soup in the dining room.",
+                question: "¿Qué come mi abuelo?",
+                questionEnglish: "What does my grandfather eat?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 1,
+                audioFile: "audio/093.mp3"
+            },
+            {
+                textToSpeak: "Limpio la silla en el comedor.",
+                textToSpeakEnglish: "I clean the chair in the dining room.",
+                question: "¿Qué limpia la persona?",
+                questionEnglish: "What does the person clean?",
+                options: ["A) La mesa", "B) La ventana", "C) La silla", "D) La cocina"],
+                optionsEnglish: ["A) The table", "B) The window", "C) The chair", "D) The kitchen"],
+                correctAnswer: 2,
+                audioFile: "audio/094.mp3"
+            },
+            {
+                textToSpeak: "Mi padre lee en mi habitación.",
+                textToSpeakEnglish: "My father reads in my room.",
+                question: "¿Dónde lee mi padre?",
+                questionEnglish: "Where does my father read?",
+                options: ["A) En la cocina", "B) En el baño", "C) En mi habitación", "D) En el comedor"],
+                optionsEnglish: ["A) In the kitchen", "B) In the bathroom", "C) In my room", "D) In the dining room"],
+                correctAnswer: 2,
+                audioFile: "audio/095.mp3"
+            },
+            {
+                textToSpeak: "Mi hermana ve televisión en mi habitación.",
+                textToSpeakEnglish: "My sister watches television in my room.",
+                question: "¿Dónde ve televisión mi hermana?",
+                questionEnglish: "Where does my sister watch television?",
+                options: ["A) En la cocina", "B) En el baño", "C) En mi habitación", "D) En el comedor"],
+                optionsEnglish: ["A) In the kitchen", "B) In the bathroom", "C) In my room", "D) In the dining room"],
+                correctAnswer: 2,
+                audioFile: "audio/096.mp3"
+            },
+            {
+                textToSpeak: "Como fruta en mi habitación.",
+                textToSpeakEnglish: "I eat fruit in my room.",
+                question: "¿Qué come la persona?",
+                questionEnglish: "What does the person eat?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 2,
+                audioFile: "audio/097.mp3"
+            },
+            {
+                textToSpeak: "Mi madre limpia la silla.",
+                textToSpeakEnglish: "My mother cleans the chair.",
+                question: "¿Qué limpia mi madre?",
+                questionEnglish: "What does my mother clean?",
+                options: ["A) La mesa", "B) La ventana", "C) La silla", "D) La cocina"],
+                optionsEnglish: ["A) The table", "B) The window", "C) The chair", "D) The kitchen"],
+                correctAnswer: 2,
+                audioFile: "audio/098.mp3"
+            },
+            {
+                textToSpeak: "Mi hermano cocina sopa.",
+                textToSpeakEnglish: "My brother cooks soup.",
+                question: "¿Qué cocina mi hermano?",
+                questionEnglish: "What does my brother cook?",
+                options: ["A) Pan", "B) Sopa", "C) Fruta", "D) Leche"],
+                optionsEnglish: ["A) Bread", "B) Soup", "C) Fruit", "D) Milk"],
+                correctAnswer: 1,
+                audioFile: "audio/099.mp3"
+            },
+            {
+                textToSpeak: "Mi abuela lee en la sala.",
+                textToSpeakEnglish: "My grandmother reads in the living room.",
+                question: "¿Dónde lee mi abuela?",
+                questionEnglish: "Where does my grandmother read?",
+                options: ["A) En la cocina", "B) En el baño", "C) En la sala", "D) En el comedor"],
+                optionsEnglish: ["A) In the kitchen", "B) In the bathroom", "C) In the living room", "D) In the dining room"],
+                correctAnswer: 2,
+                audioFile: "audio/100.mp3"
+            }
+        ];
+
+        const quizContainer = document.getElementById('quiz');
+        const submitButton = document.getElementById('submit-btn');
+        const resultsContainer = document.getElementById('results');
+        let selectedAnswers = new Array(questions.length).fill(null);
+
+        function generateQuiz() {
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('question');
+                questionDiv.innerHTML = `
+                    <p><strong>Pregunta ${index + 1}:</strong> ${q.question}</p>
+                    <div class="translation" id="question-translation-${index}">${q.questionEnglish}</div>
+                    <button class="play-audio-btn" onclick="playAudio(${index})">Escuchar Audio</button>
+                    <div class="transcript" id="transcript-${index}">${q.textToSpeak}</div>
+                    <div class="translation" id="transcript-translation-${index}">${q.textToSpeakEnglish}</div>
+                    <div class="options" id="options-${index}">
+                        ${q.options.map((option, i) => `
+                            <div class="option" onclick="selectOption(${index}, ${i})">${option}</div>
+                            <div class="translation" id="option-translation-${index}-${i}">${q.optionsEnglish[i]}</div>
+                        `).join('')}
+                    </div>
+                `;
+                quizContainer.appendChild(questionDiv);
+            });
+        }
+
+        function playAudio(index) {
+            const audio = new Audio(questions[index].audioFile);
+            audio.play();
+        }
+
+        function selectOption(questionIndex, optionIndex) {
+            selectedAnswers[questionIndex] = optionIndex;
+            const options = document.querySelectorAll(`#options-${questionIndex} .option`);
+            options.forEach((opt, i) => {
+                opt.style.backgroundColor = i === optionIndex ? '#e0e0e0' : '#f9f9f9';
+            });
+        }
+
+        function checkAnswers() {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const selected = selectedAnswers[index];
+                const options = document.querySelectorAll(`#options-${index} .option`);
+                options.forEach((opt, i) => {
+                    if (i === q.correctAnswer) {
+                        opt.classList.add('correct');
+                    } else if (i === selected && selected !== q.correctAnswer) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+                if (selected === q.correctAnswer) score++;
+
+                document.getElementById(`transcript-${index}`).style.display = 'block';
+                document.getElementById(`question-translation-${index}`).style.display = 'block';
+                document.getElementById(`transcript-translation-${index}`).style.display = 'block';
+                q.options.forEach((_, i) => {
+                    document.getElementById(`option-translation-${index}-${i}`).style.display = 'block';
+                });
+            });
+
+            resultsContainer.innerHTML = `Tu puntaje: ${score} de ${questions.length}`;
+            submitButton.disabled = true;
+        }
+
+        generateQuiz();
+        submitButton.addEventListener('click', checkAnswers);
+    </script>
+</body>
+</html>
